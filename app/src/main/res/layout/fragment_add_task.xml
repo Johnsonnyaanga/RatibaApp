@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AddTask"
+    >
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:textSize="20sp"
+        android:textColor="#0B85E6"
+        android:text="Select Category ?"
+         />
+    <Spinner
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_cartegory"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:textSize="20sp"
+        android:textColor="#0B85E6"
+        android:text="Taks to be done ?"
+        />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Task name"
+            app:hintTextAppearance="@style/TextLabel"
+            android:id="@+id/task_name_id"
+            android:layout_margin="@dimen/_10sdp"
+            />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:textSize="20sp"
+        android:textColor="#0B85E6"
+        android:text="Description of Task ?"
+        />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/description_id"
+            android:layout_width="match_parent"
+            android:maxLines="5"
+            style="@style/edit_input"
+            android:hint="Write a brief description of the task"
+            android:layout_height="150dp"
+            android:layout_margin="@dimen/_10sdp"
+            app:hintTextAppearance="@style/TextLabel"
+            />
+
+    <LinearLayout
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+<com.google.android.material.textfield.TextInputEditText
+    android:layout_width="275dp"
+    android:id="@+id/date_text"
+    android:layout_height="wrap_content"
+    app:hintTextAppearance="@style/TextLabel"
+    android:hint="Select Due Date"
+    android:textSize="@dimen/_14ssp"
+    />
+     <ImageView
+         android:layout_gravity="center"
+         android:layout_width="35dp"
+         android:layout_marginLeft="@dimen/_10sdp"
+         android:layout_marginBottom="10dp"
+         android:layout_height="35dp"
+         android:src="@drawable/calendar"
+         android:id="@+id/calendarpicker"
+         />
+"
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:padding="2dp"
+        android:text="ADD TASK"
+        android:backgroundTint="#1839EC"
+        app:cornerRadius="10dp"
+        android:layout_margin="@dimen/_10sdp"
+        android:id="@+id/submit_task"
+        />
+
+
+</LinearLayout>

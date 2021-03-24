@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Ratiba</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="spiner_tasks">
+        <item>Personal</item>
+        <item>Work</item>
+        <item>Studies</item>
+        <item>Events</item>
+    </string-array>
+</resources>
