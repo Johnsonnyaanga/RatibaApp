@@ -1,32 +1,28 @@
 package com.example.ratiba
 
 import android.app.DatePickerDialog
-import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextUtils
 import android.text.TextUtils.isEmpty
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
+import android.widget.Spinner
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.ratiba.models.Task
 import com.example.ratiba.viewmodels.TaskViewModel
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textview.MaterialTextView
 import kotlinx.android.synthetic.main.fragment_add_task.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class AddTask : Fragment() {
+class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
     var cal = Calendar.getInstance()
     private lateinit var datetext:TextInputEditText
+    private lateinit var cartegoryNameSpinner:Spinner
+    private lateinit var SpinnerselctedTask:String
 
 
     override fun onCreateView(
@@ -41,12 +37,10 @@ class AddTask : Fragment() {
         val taskname = view.findViewById<TextInputEditText>(R.id.task_name_id)
         val taskDescription = view.findViewById<TextInputEditText>(R.id.description_id)
         val dueDate = view.findViewById<TextInputEditText>(R.id.date_text)
-
         val status:String ?  = null
-        val cartegoryNameSpinner = view.findViewById<Spinner>(R.id.spinner_cartegory)
         val addBTN = view.findViewById<MaterialButton>(R.id.submit_task)
 
-
+        /*cartegoryNameSpinner = view.findViewById<Spinner>(R.id.spinner_cartegory)
 
         ArrayAdapter.createFromResource(
             requireContext(),
@@ -57,20 +51,35 @@ class AddTask : Fragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner
             cartegoryNameSpinner.adapter = adapter
-        }
+           // cartegoryNameSpinner.onItemSelectedListener = this
+        }*/
 
 
-        addBTN.setOnClickListener(View.OnClickListener {
-                view ->
+        val spinner:Spinner = view.findViewById(R.id.spinner_cartegory)
+        val adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.spiner_tasks,
+            android.R.layout.simple_spinner_item
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = this
+
+
+
+
+        addBTN.setOnClickListener(View.OnClickListener { view ->
             //var cartegory_selected:String
 
-            insertDataToDB(taskname.text.toString(),
+
+
+            insertDataToDB(
+                taskname.text.toString(),
                 taskDescription.text.toString(),
-                "cartegory_selected",
-                dueDate.text.toString())
+                SpinnerselctedTask,
+                dueDate.text.toString()
+            )
             findNavController().navigate(R.id.action_addTask_to_home)
-
-
 
 
         })
@@ -79,8 +88,10 @@ class AddTask : Fragment() {
 
         // create an OnDateSetListener
         val dateSetListener = object : DatePickerDialog.OnDateSetListener {
-            override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,
-                                   dayOfMonth: Int) {
+            override fun onDateSet(
+                view: DatePicker, year: Int, monthOfYear: Int,
+                dayOfMonth: Int
+            ) {
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, monthOfYear)
                 cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -91,12 +102,14 @@ class AddTask : Fragment() {
         // when you click on the button, show DatePickerDialog that is set with OnDateSetListener
         pickdate!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View) {
-                DatePickerDialog(requireContext(),
+                DatePickerDialog(
+                    requireContext(),
                     dateSetListener,
                     // set DatePickerDialog to point to today's date when it loads up
                     cal.get(Calendar.YEAR),
                     cal.get(Calendar.MONTH),
-                    cal.get(Calendar.DAY_OF_MONTH)).show()
+                    cal.get(Calendar.DAY_OF_MONTH)
+                ).show()
             }
 
         })
@@ -110,25 +123,30 @@ class AddTask : Fragment() {
         return view
     }
 
-    private fun insertDataToDB(taskname:String, taskdescription:String,category:String,dueDate:String?) {
+    private fun insertDataToDB(
+        taskname: String,
+        taskdescription: String,
+        category: String,
+        dueDate: String?
+    ) {
 
         val context = activity?.applicationContext
 
-        if (inputCheck(taskname,taskdescription)){
+        if (inputCheck(taskname, taskdescription)){
             val  mTaskModel = ViewModelProvider(this).get(TaskViewModel::class.java)
 
 
-            val task = Task(0,taskname,taskdescription,dueDate,null,category)
+            val task = Task(0, taskname, taskdescription, dueDate, null, category)
             mTaskModel.addTask(task)
 
-            Toast.makeText(context,"added succesifuly", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "added succesifuly", Toast.LENGTH_LONG).show()
 
         }else{
-            Toast.makeText(context,"please enter required fields", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "please enter required fields", Toast.LENGTH_LONG).show()
         }
 
     }
-    private fun inputCheck(taskName:String,taskDesc: String):Boolean{
+    private fun inputCheck(taskName: String, taskDesc: String):Boolean{
         return !(isEmpty(taskName) && isEmpty(taskDesc))
 
 
@@ -139,28 +157,37 @@ class AddTask : Fragment() {
         datetext!!.setText(sdf.format(cal.getTime()))
     }
 
-   /* private fun geteSelectedSpinerItem(  myspinner:Spinner):String{
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        SpinnerselctedTask = parent?.getItemAtPosition(position).toString()
 
-        myspinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
+    }
 
-            }
+    override fun onNothingSelected(parent: AdapterView<*>?) {
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+    }
 
-                var cartegory_selected = parent?.getItemAtPosition(position).toString()
+    /* private fun geteSelectedSpinerItem(  myspinner:Spinner):String{
+
+         myspinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+             override fun onNothingSelected(parent: AdapterView<*>?) {
+
+             }
+
+             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+                 var cartegory_selected = parent?.getItemAtPosition(position).toString()
 
 
-            }
+             }
 
 
-        }
+         }
 
 
 
 
 
-    }*/
+     }*/
 
 
 
