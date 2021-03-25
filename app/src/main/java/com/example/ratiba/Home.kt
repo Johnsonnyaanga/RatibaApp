@@ -1,10 +1,12 @@
 package com.example.ratiba
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewManager
+import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -22,12 +24,15 @@ class Home : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
      val view = inflater.inflate(R.layout.fragment_home, container, false)
 
+
         val context = activity?.applicationContext
+        
+
 
         addfloat = view.findViewById(R.id.add_task_float)
         Recycler = view.findViewById(R.id.recycler)
@@ -36,16 +41,14 @@ class Home : Fragment() {
         val adapter = TaskListAdapter()
         Recycler.adapter = adapter
         Recycler.layoutManager = LinearLayoutManager(context)
-        mTaskViewModel.readAllTasks.observe(viewLifecycleOwner, Observer {
-            task ->
+        mTaskViewModel.readAllTasks.observe(viewLifecycleOwner, Observer { task ->
             adapter.setData(task)
         })
 
 
 
 
-        addfloat.setOnClickListener(View.OnClickListener {
-                view ->
+        addfloat.setOnClickListener(View.OnClickListener { view ->
             // go to add fragment
             findNavController().navigate(R.id.action_home_to_addTask)
         })

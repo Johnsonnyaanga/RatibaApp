@@ -10,23 +10,8 @@
     >
 
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
-        android:textSize="20sp"
-        android:textColor="#0B85E6"
-        android:text="Select Category ?"
-         />
-    <Spinner
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner_cartegory"
-        />
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Task name"
+            android:maxLength="25"
             app:hintTextAppearance="@style/TextLabel"
             android:id="@+id/task_name_id"
             android:layout_margin="@dimen/_10sdp"
@@ -55,20 +41,18 @@
         android:textColor="#0B85E6"
         android:text="Description of Task ?"
         />
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/description_id"
-            android:layout_width="match_parent"
-            android:maxLines="5"
-            style="@style/edit_input"
-            android:hint="Write a brief description of the task"
-            android:layout_height="150dp"
-            android:layout_margin="@dimen/_10sdp"
-            app:hintTextAppearance="@style/TextLabel"
-            />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/description_id"
+        android:layout_margin="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Write a brief description of the task"
+        android:maxLength="120"
+        app:hintTextAppearance="@style/TextLabel" />
 
     <LinearLayout
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="10dp"
+        android:layout_margin="@dimen/_10sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -87,11 +71,31 @@
          android:layout_marginLeft="@dimen/_10sdp"
          android:layout_marginBottom="10dp"
          android:layout_height="35dp"
-         android:src="@drawable/calendar"
+         android:src="@drawable/cal"
          android:id="@+id/calendarpicker"
          />
-"
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:textSize="20sp"
+        android:textColor="#0B85E6"
+        android:text="Select Category ?"
+        />
+    <Spinner
+
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_cartegory"
+        />
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
@@ -104,6 +108,7 @@
         android:layout_margin="@dimen/_10sdp"
         android:id="@+id/submit_task"
         />
+
 
 
 </LinearLayout>
