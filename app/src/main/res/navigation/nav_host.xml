@@ -3,23 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_host"
-    app:startDestination="@id/home2">
+    app:startDestination="@id/splashScreen">
 
     <fragment
         android:id="@+id/home2"
-        android:name="com.example.ratiba.Home"
+        android:name="com.example.ratiba.fragments.Home"
         android:label="TODOS"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_home_to_addTask"
-            app:destination="@id/addTask" />
+            app:destination="@id/addTask"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_home_to_updateTask"
             app:destination="@id/updateTask" />
     </fragment>
     <fragment
         android:id="@+id/addTask"
-        android:name="com.example.ratiba.AddTask"
+        android:name="com.example.ratiba.fragments.AddTask"
         android:label="ADD TASK"
         tools:layout="@layout/fragment_add_task" >
         <action
@@ -28,15 +32,41 @@
     </fragment>
     <fragment
         android:id="@+id/updateTask"
-        android:name="com.example.ratiba.UpdateTask"
+        android:name="com.example.ratiba.fragments.UpdateTask"
         android:label="UPDATE TASK"
         tools:layout="@layout/fragment_update_task" >
         <action
             android:id="@+id/action_updateTask_to_home"
-            app:destination="@id/home2" />
+            app:destination="@id/home2"
+
+         />
         <argument
             android:name="currentTask"
             app:argType="com.example.ratiba.models.Task" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/splashScreen"
+        android:name="com.example.ratiba.fragments.SplashScreen"
+        android:label="Welcome"
+        tools:layout="@layout/fragment_splash_screen" >
+        <action
+            android:id="@+id/action_splashScreen_to_viewPager"
+            app:destination="@id/viewPager"
+          />
+        <action
+            android:id="@+id/action_splashScreen_to_home2"
+            app:destination="@id/home2"
+            app:popUpTo="@id/splashScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewPager"
+        android:name="com.example.ratiba.onBoarding.ViewPager"
+        android:label=""
+        tools:layout="@layout/fragment_view_pager" >
+        <action
+            android:id="@+id/action_viewPager_to_home2"
+            app:destination="@id/home2"
+           />
     </fragment>
 </navigation>

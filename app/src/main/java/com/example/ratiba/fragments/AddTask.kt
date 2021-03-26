@@ -1,19 +1,24 @@
-package com.example.ratiba
+package com.example.ratiba.fragments
 
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.text.TextUtils.isEmpty
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
-import android.widget.Spinner
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.example.ratiba.R
 import com.example.ratiba.models.Task
 import com.example.ratiba.viewmodels.TaskViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.android.synthetic.main.fragment_add_task.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,7 +34,17 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
         val view = inflater.inflate(R.layout.fragment_add_task, container, false)
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                Navigation.findNavController(view).popBackStack(R.id.action_addTask_to_home, false)
+            }
+
+
+        })
 
        val  mTaskModel = ViewModelProvider(this).get(TaskViewModel::class.java)
 
@@ -70,7 +85,6 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
         addBTN.setOnClickListener(View.OnClickListener { view ->
             //var cartegory_selected:String
-
 
 
             insertDataToDB(
@@ -165,6 +179,8 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
     override fun onNothingSelected(parent: AdapterView<*>?) {
 
     }
+
+
 
     /* private fun geteSelectedSpinerItem(  myspinner:Spinner):String{
 

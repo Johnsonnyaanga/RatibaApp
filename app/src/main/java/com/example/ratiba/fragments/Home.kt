@@ -1,4 +1,4 @@
-package com.example.ratiba
+package com.example.ratiba.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ratiba.R
 import com.example.ratiba.adapters.TaskListAdapter
 import com.example.ratiba.viewmodels.TaskViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton

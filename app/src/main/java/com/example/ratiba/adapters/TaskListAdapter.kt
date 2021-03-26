@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ratiba.HomeDirections
+import com.example.ratiba.fragments.HomeDirections
 import com.example.ratiba.R
-import com.example.ratiba.UpdateTask
+import com.example.ratiba.fragments.UpdateTask
 import com.example.ratiba.models.Task
 import com.google.android.material.card.MaterialCardView
 
