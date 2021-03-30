@@ -52,28 +52,27 @@
         app:hintTextAppearance="@style/TextLabel" />
 
     <LinearLayout
+        android:id="@+id/calendarpickerr"
+        android:layout_width="376dp"
+        android:layout_height="35dp"
         android:layout_margin="@dimen/_10sdp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-<com.google.android.material.textfield.TextInputEditText
-    android:layout_width="275dp"
-    android:id="@+id/date_text"
-    android:layout_height="wrap_content"
-    app:hintTextAppearance="@style/TextLabel"
-    android:hint="Select Due Date"
-    android:textSize="@dimen/_14ssp"
-    />
-     <ImageView
-         android:layout_gravity="center"
-         android:layout_width="35dp"
-         android:layout_marginLeft="@dimen/_10sdp"
-         android:layout_marginBottom="10dp"
-         android:layout_height="35dp"
-         android:src="@drawable/cal"
-         android:id="@+id/calendarpicker"
-         />
+        android:orientation="horizontal">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/date_text"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:hint="Select Due Date"
+            android:textSize="@dimen/_14ssp"
+            app:hintTextAppearance="@style/TextLabel" />
+
+        <ImageView
+            android:id="@+id/calendarpicker_image"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:src="@drawable/cal" />
 
     </LinearLayout>
 

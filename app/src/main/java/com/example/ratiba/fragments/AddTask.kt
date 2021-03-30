@@ -3,24 +3,21 @@ package com.example.ratiba.fragments
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.text.TextUtils.isEmpty
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.ratiba.R
 import com.example.ratiba.TaskRepository
 import com.example.ratiba.models.Task
-import com.example.ratiba.room.TaskDao
 import com.example.ratiba.room.TaskDatabase
 import com.example.ratiba.viewmodels.TaskViewModel
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +33,8 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
     private lateinit var cartegoryNameSpinner:Spinner
     private lateinit var SpinnerselctedTask:String
     private lateinit var addBTN:ExtendedFloatingActionButton
+    private lateinit var Spinner:Spinner
+
 
 
     override fun onCreateView(
@@ -58,15 +57,39 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
 
 
-        val spinner:Spinner = view.findViewById(R.id.spinner_cartegory)
-        val adapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.spiner_tasks,
-            android.R.layout.simple_spinner_item
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
-        spinner.onItemSelectedListener = this
+        //get cartegories
+        val mTaskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
+        val mSpinnerData = mTaskViewModel.readAllCategorynames
+        mSpinnerData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+
+            data ->
+
+            val adapter = ArrayAdapter<String>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                data
+            )
+            Spinner = view.findViewById(R.id.spinner_cartegory)
+            Spinner.adapter = adapter
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            Spinner.onItemSelectedListener = this
+
+
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -85,7 +108,7 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
         })
 
-        val pickdate = view.findViewById<ImageView>(R.id.calendarpicker)
+        val pickdate = view.findViewById<LinearLayout>(R.id.calendarpickerr)
 
         // create an OnDateSetListener
         val dateSetListener = object : DatePickerDialog.OnDateSetListener {
@@ -101,7 +124,7 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
         }
 
         // when you click on the button, show DatePickerDialog that is set with OnDateSetListener
-        pickdate!!.setOnClickListener(object : View.OnClickListener {
+        pickdate.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View) {
                 DatePickerDialog(
                     requireContext(),
@@ -144,8 +167,7 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
                 val dao = TaskDatabase.getDatabase(requireContext()).taskDao()
                 val taskr:TaskRepository = TaskRepository(dao)
                 val count = taskr.getcartCount(category)
-                val countf = count+1
-                mTaskModel.updateCartCount(countf,category)
+                taskr.updateCartCount(count, category)
             }
 
 
@@ -187,30 +209,9 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
 
 
-    /* private fun geteSelectedSpinerItem(  myspinner:Spinner):String{
-
-         myspinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-             override fun onNothingSelected(parent: AdapterView<*>?) {
-
-             }
-
-             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
-                 var cartegory_selected = parent?.getItemAtPosition(position).toString()
-
-
-             }
-
-
-         }
-
-
-
-
-
-     }*/
 
 
 
 
 }
+

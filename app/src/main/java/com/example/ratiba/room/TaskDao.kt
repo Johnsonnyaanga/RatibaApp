@@ -1,6 +1,7 @@
 package com.example.ratiba.room
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import com.example.ratiba.models.Cartegories
 import com.example.ratiba.models.Task
@@ -27,6 +28,9 @@ interface TaskDao {
     fun getCartCount(cart:String):Int
     @Query("UPDATE cartegories_table SET cartegoryCount  = :count WHERE cartegoryName =:cartname")
     fun updateCartCount(count:Int,cartname:String)
+    @Query("SELECT cartegoryName FROM cartegories_table ORDER BY cartegory_ID")
+    fun reterieveAllCartegoryNames(): LiveData<List<String>>
+
 
 
 

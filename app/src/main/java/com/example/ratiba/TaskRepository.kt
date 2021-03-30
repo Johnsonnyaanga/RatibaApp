@@ -1,6 +1,7 @@
 package com.example.ratiba
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.ratiba.models.Cartegories
 import com.example.ratiba.models.Task
 import com.example.ratiba.room.TaskDao
@@ -8,6 +9,8 @@ import com.example.ratiba.room.TaskDao
 class TaskRepository(private val taskDao:TaskDao) {
     val readAllTasks:LiveData<List<Task>> = taskDao.reterieveAllTasks()
     val readAllCategorys:LiveData<List<Cartegories>> = taskDao.reterieveAllCartegories()
+    val readAllCategorynames: LiveData<List<String>> = taskDao.reterieveAllCartegoryNames()
+
 
     suspend fun addTask(task:Task){
         taskDao.addTask(task)

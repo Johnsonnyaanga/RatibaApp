@@ -7,10 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.DatePicker
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.ratiba.R
@@ -23,10 +20,14 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class UpdateTask : Fragment(){
+class UpdateTask : Fragment(),AdapterView.OnItemSelectedListener{
     var cal = Calendar.getInstance()
     private lateinit var updateBTN:ExtendedFloatingActionButton
     private lateinit var Due:TextInputEditText
+    private lateinit var Spinner:Spinner
+    private lateinit var SpinnerselctedTask:String
+    private lateinit var args:UpdateTaskArgs
+
 
 
     override fun onCreateView(
@@ -36,8 +37,9 @@ class UpdateTask : Fragment(){
        val view = inflater.inflate(R.layout.fragment_update_task, container, false)
 
         arguments?.let {
-         val args = UpdateTaskArgs.fromBundle(it)
 
+
+            args = UpdateTaskArgs.fromBundle(it)
             Due =  view.findViewById(R.id.due_date_label)
             val taskname =  view.findViewById<TextInputEditText>(R.id.task_label_text_input)
             val taskDesc =  view.findViewById<TextInputEditText>(R.id.desc_text_label)
@@ -100,6 +102,31 @@ class UpdateTask : Fragment(){
 
         }
 
+        //get cartegories
+        val mTaskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
+        val mSpinnerData = mTaskViewModel.readAllCategorynames
+        mSpinnerData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+
+                data ->
+
+            val adapter = ArrayAdapter<String>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                data
+            )
+            Spinner = view.findViewById(R.id.spinner_update)
+            Spinner.adapter = adapter
+            val set:String? = args.currentTask.category
+            Spinner.setSelection(adapter.getPosition(set))
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            Spinner.onItemSelectedListener = this
+
+
+
+        })
+
+
+
 
 
 
@@ -124,7 +151,7 @@ class UpdateTask : Fragment(){
             val  mTaskModel = ViewModelProvider(this).get(TaskViewModel::class.java)
 
 
-            val task = Task(id, taskname, taskdescription, dueDate, null, category)
+            val task = Task(id, taskname, taskdescription, dueDate, null, SpinnerselctedTask)
             mTaskModel.updateTask(task)
             updateBTN.setText("Saved")
             findNavController().navigate(R.id.action_updateTask_to_home)
@@ -144,6 +171,17 @@ class UpdateTask : Fragment(){
         val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         Due!!.setText(sdf.format(cal.getTime()))
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        SpinnerselctedTask = parent?.getItemAtPosition(position).toString()
+
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+
+
     }
 
 
