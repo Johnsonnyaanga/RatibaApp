@@ -15,10 +15,17 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.ratiba.R
+import com.example.ratiba.TaskRepository
 import com.example.ratiba.models.Task
+import com.example.ratiba.room.TaskDao
+import com.example.ratiba.room.TaskDatabase
 import com.example.ratiba.viewmodels.TaskViewModel
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,6 +35,7 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
     private lateinit var datetext:TextInputEditText
     private lateinit var cartegoryNameSpinner:Spinner
     private lateinit var SpinnerselctedTask:String
+    private lateinit var addBTN:ExtendedFloatingActionButton
 
 
     override fun onCreateView(
@@ -38,36 +46,16 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
         val view = inflater.inflate(R.layout.fragment_add_task, container, false)
 
-        val callback = requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                Navigation.findNavController(view).popBackStack(R.id.action_addTask_to_home, false)
-            }
 
 
-        })
-
-       val  mTaskModel = ViewModelProvider(this).get(TaskViewModel::class.java)
 
        datetext = view.findViewById<TextInputEditText>(R.id.date_text)
         val taskname = view.findViewById<TextInputEditText>(R.id.task_name_id)
         val taskDescription = view.findViewById<TextInputEditText>(R.id.description_id)
         val dueDate = view.findViewById<TextInputEditText>(R.id.date_text)
         val status:String ?  = null
-        val addBTN = view.findViewById<MaterialButton>(R.id.submit_task)
+        addBTN = view.findViewById<ExtendedFloatingActionButton>(R.id.submit_task)
 
-        /*cartegoryNameSpinner = view.findViewById<Spinner>(R.id.spinner_cartegory)
-
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.spiner_tasks,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            cartegoryNameSpinner.adapter = adapter
-           // cartegoryNameSpinner.onItemSelectedListener = this
-        }*/
 
 
         val spinner:Spinner = view.findViewById(R.id.spinner_cartegory)
@@ -93,7 +81,6 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
                 SpinnerselctedTask,
                 dueDate.text.toString()
             )
-            findNavController().navigate(R.id.action_addTask_to_home)
 
 
         })
@@ -153,10 +140,28 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
             val task = Task(0, taskname, taskdescription, dueDate, null, category)
             mTaskModel.addTask(task)
 
-            Toast.makeText(context, "added succesifuly", Toast.LENGTH_LONG).show()
+            GlobalScope.launch(Dispatchers.IO) {
+                val dao = TaskDatabase.getDatabase(requireContext()).taskDao()
+                val taskr:TaskRepository = TaskRepository(dao)
+                val count = taskr.getcartCount(category)
+                val countf = count+1
+                mTaskModel.updateCartCount(countf,category)
+            }
+
+
+
+
+
+
+            addBTN.setText("Added succesifully")
+            findNavController().navigate(R.id.action_addTask_to_home)
+
+
+
 
         }else{
             Toast.makeText(context, "please enter required fields", Toast.LENGTH_LONG).show()
+
         }
 
     }

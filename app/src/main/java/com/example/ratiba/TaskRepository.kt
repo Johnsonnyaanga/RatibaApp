@@ -24,6 +24,13 @@ class TaskRepository(private val taskDao:TaskDao) {
         taskDao.updateCartegory(cartegories)
 
     }
+     fun getcartCount(cart:String):Int{
+        val m:Int = taskDao.getCartCount(cart)
+        return m
+    }
+    fun updateCartCount(count:Int,name:String){
+        taskDao.updateCartCount(count,name)
+    }
 
 
 

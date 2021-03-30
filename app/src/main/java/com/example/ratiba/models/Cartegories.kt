@@ -10,5 +10,6 @@ import kotlinx.android.parcel.Parcelize
 data class Cartegories(
     @PrimaryKey(autoGenerate = true)
     val cartegory_ID:Int,
-    val cartegoryName:String
+    val cartegoryName:String,
+    val cartegoryCount:Int
 ):Parcelable

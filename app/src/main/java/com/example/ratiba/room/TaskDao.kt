@@ -23,6 +23,12 @@ interface TaskDao {
     @Update
     suspend fun updateCartegory(cartegories: Cartegories)
 
+    @Query("SELECT COUNT(id)  FROM task_table WHERE category = :cart")
+    fun getCartCount(cart:String):Int
+    @Query("UPDATE cartegories_table SET cartegoryCount  = :count WHERE cartegoryName =:cartname")
+    fun updateCartCount(count:Int,cartname:String)
+
+
 
 
 

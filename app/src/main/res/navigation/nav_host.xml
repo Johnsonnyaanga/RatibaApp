@@ -17,9 +17,15 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/nav_default_enter_anim"
             app:popExitAnim="@anim/nav_default_exit_anim" />
+
         <action
             android:id="@+id/action_home_to_updateTask"
-            app:destination="@id/updateTask" />
+            app:destination="@id/updateTask"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim"
+            />
     </fragment>
     <fragment
         android:id="@+id/addTask"
@@ -53,11 +59,11 @@
         <action
             android:id="@+id/action_splashScreen_to_viewPager"
             app:destination="@id/viewPager"
-          />
+            app:popUpTo="@id/home2" />
         <action
             android:id="@+id/action_splashScreen_to_home2"
             app:destination="@id/home2"
-            app:popUpTo="@id/splashScreen" />
+            app:popUpTo="@id/home2" />
     </fragment>
     <fragment
         android:id="@+id/viewPager"
@@ -66,7 +72,16 @@
         tools:layout="@layout/fragment_view_pager" >
         <action
             android:id="@+id/action_viewPager_to_home2"
-            app:destination="@id/home2"
-           />
+            app:destination="@id/home2" />
     </fragment>
+    <fragment
+        android:id="@+id/cartegoriesFragment"
+        android:name="com.example.ratiba.fragments.CartegoriesFragment"
+        android:label="Cartegories"
+        tools:layout="@layout/fragment_cartegories" />
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.example.ratiba.fragments.Settings"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

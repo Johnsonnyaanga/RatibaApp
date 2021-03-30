@@ -45,6 +45,19 @@ class TaskViewModel(application: Application):AndroidViewModel(application) {
             repository.updateCartegories(cartegories)
         }
    }
+    fun getCartCount(cart:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getcartCount(cart)
+
+        }
+
+    }
+    fun updateCartCount(count:Int,name:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateCartCount(count,name)
+
+        }
+    }
 
 
 

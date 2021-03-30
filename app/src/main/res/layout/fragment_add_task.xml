@@ -97,15 +97,16 @@
         android:id="@+id/spinner_cartegory"
         />
 
-    <com.google.android.material.button.MaterialButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="2dp"
-        android:padding="2dp"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        app:icon="@drawable/ic_done_outline_24"
+        app:iconGravity="textEnd"
         android:text="ADD TASK"
-        android:backgroundTint="#1839EC"
-        app:cornerRadius="10dp"
-        android:layout_margin="@dimen/_10sdp"
         android:id="@+id/submit_task"
         />
 
