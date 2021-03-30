@@ -60,6 +60,12 @@ class TaskViewModel(application: Application):AndroidViewModel(application) {
         }
     }
 
+    fun retrieveCartegoryTasks(cartid:Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.retrieveCartegoryTasks(cartid)
+        }
+    }
+
 
 
 

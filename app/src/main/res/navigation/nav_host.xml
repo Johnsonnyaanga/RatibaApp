@@ -78,10 +78,23 @@
         android:id="@+id/cartegoriesFragment"
         android:name="com.example.ratiba.fragments.CartegoriesFragment"
         android:label="Cartegories"
-        tools:layout="@layout/fragment_cartegories" />
+        tools:layout="@layout/fragment_cartegories" >
+        <action
+            android:id="@+id/action_cartegoriesFragment_to_cartegorySpecificTasks"
+            app:destination="@id/cartegorySpecificTasks" />
+    </fragment>
     <fragment
         android:id="@+id/settings"
         android:name="com.example.ratiba.fragments.Settings"
         android:label="Settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/cartegorySpecificTasks"
+        android:name="com.example.ratiba.fragments.CartegorySpecificTasks"
+        android:label="fragment_cartegory_specific_tasks"
+        tools:layout="@layout/fragment_cartegory_specific_tasks" >
+        <action
+            android:id="@+id/action_cartegorySpecificTasks_to_cartegoriesFragment"
+            app:destination="@id/cartegoriesFragment" />
+    </fragment>
 </navigation>

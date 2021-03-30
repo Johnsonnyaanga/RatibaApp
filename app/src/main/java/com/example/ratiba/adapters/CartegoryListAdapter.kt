@@ -1,24 +1,13 @@
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ratiba.R
-import com.example.ratiba.TaskRepository
-import com.example.ratiba.fragments.HomeDirections
-import com.example.ratiba.fragments.UpdateTask
+import com.example.ratiba.fragments.CartegoriesFragmentDirections
 import com.example.ratiba.models.Cartegories
-import com.example.ratiba.models.Task
-import com.example.ratiba.room.TaskDao
-import com.example.ratiba.room.TaskDatabase
-import com.example.ratiba.viewmodels.TaskViewModel
 import com.google.android.material.card.MaterialCardView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class CartegoryListAdapter: RecyclerView.Adapter<CartegoryListAdapter.CartegoryViewHolder>() {
 
@@ -40,8 +29,8 @@ class CartegoryListAdapter: RecyclerView.Adapter<CartegoryListAdapter.CartegoryV
             View.OnClickListener {
                     view ->
 
-               /* val action = HomeDirections.actionHomeToUpdateTask(currentItem)
-                holder.itemView.findNavController().navigate(action)*/
+               val action = CartegoriesFragmentDirections.actionCartegoriesFragmentToCartegorySpecificTasks(currentItem)
+                holder.itemView.findNavController().navigate(action)
 
             }
         )

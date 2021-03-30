@@ -21,6 +21,8 @@ interface TaskDao {
 
     @Query("SELECT * FROM cartegories_table ORDER BY cartegory_ID ASC ")
     fun reterieveAllCartegories(): LiveData<List<Cartegories>>
+    @Query("SELECT * FROM cartegories_table WHERE cartegory_ID=:cartid ORDER BY cartegory_ID ASC ")
+    fun reterieveAllCartegoryTasks( cartid:Int): LiveData<List<Cartegories>>
     @Update
     suspend fun updateCartegory(cartegories: Cartegories)
 

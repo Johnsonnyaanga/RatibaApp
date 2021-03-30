@@ -35,6 +35,10 @@ class TaskRepository(private val taskDao:TaskDao) {
         taskDao.updateCartCount(count,name)
     }
 
+    fun retrieveCartegoryTasks(cartid:Int){
+        taskDao.reterieveAllCartegoryTasks(cartid)
+    }
+
 
 
 
