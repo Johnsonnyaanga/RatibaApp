@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.ratiba.models.Cartegories
 import com.example.ratiba.models.Task
 import com.example.ratiba.room.TaskDao
+import com.google.android.play.core.tasks.Tasks
 
 class TaskRepository(private val taskDao:TaskDao) {
     val readAllTasks:LiveData<List<Task>> = taskDao.reterieveAllTasks()
@@ -35,8 +36,9 @@ class TaskRepository(private val taskDao:TaskDao) {
         taskDao.updateCartCount(count,name)
     }
 
-    fun retrieveCartegoryTasks(cartid:Int){
-        taskDao.reterieveAllCartegoryTasks(cartid)
+    fun retrieveCartegoryTasks(cartname:String):LiveData<List<Task>>{
+       val carts = taskDao.reterieveAllCartegoryTasks(cartname)
+        return carts
     }
 
 

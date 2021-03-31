@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.activity_main)
 
 
+
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         val navHost = supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment

@@ -6,6 +6,7 @@ import com.example.ratiba.TaskRepository
 import com.example.ratiba.models.Cartegories
 import com.example.ratiba.models.Task
 import com.example.ratiba.room.TaskDatabase
+import com.google.android.play.core.tasks.Tasks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -60,10 +61,9 @@ class TaskViewModel(application: Application):AndroidViewModel(application) {
         }
     }
 
-    fun retrieveCartegoryTasks(cartid:Int){
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.retrieveCartegoryTasks(cartid)
-        }
+    fun retrieveCartegoryTasks(cartname:String):LiveData<List<Task>>{
+           val mss =  repository.retrieveCartegoryTasks(cartname)
+           return mss
     }
 
 

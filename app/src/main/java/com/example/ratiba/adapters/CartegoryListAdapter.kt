@@ -29,7 +29,7 @@ class CartegoryListAdapter: RecyclerView.Adapter<CartegoryListAdapter.CartegoryV
             View.OnClickListener {
                     view ->
 
-               val action = CartegoriesFragmentDirections.actionCartegoriesFragmentToCartegorySpecificTasks(currentItem)
+                val action = CartegoriesFragmentDirections.actionCartegoriesFragmentToCartegorySpecificTasks(currentItem)
                 holder.itemView.findNavController().navigate(action)
 
             }

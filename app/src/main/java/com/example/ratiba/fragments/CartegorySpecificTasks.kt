@@ -5,21 +5,36 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ratiba.MainActivity
 import com.example.ratiba.R
+import com.example.ratiba.TaskRepository
+import com.example.ratiba.adapters.CartegorySpecificClassAdapter
 import com.example.ratiba.adapters.TaskListAdapter
+import com.example.ratiba.room.TaskDatabase
 import com.example.ratiba.viewmodels.TaskViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.play.core.tasks.Tasks
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.DisposableHandle
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class CartegorySpecificTasks : Fragment() {
-    private lateinit var addfloat: FloatingActionButton
     private lateinit var Recycler: RecyclerView
     private lateinit var mTaskViewModel: TaskViewModel
+    //private lateinit var args:CartegorySpecificTasksArgs
+    private  val args by navArgs<CartegorySpecificTasksArgs>()
+
 
 
     override fun onCreateView(
@@ -30,27 +45,38 @@ class CartegorySpecificTasks : Fragment() {
 
 
         val context = activity?.applicationContext
+        //requireActivity().title = args.cartTasks.cartegoryName
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = args.cartTasks.cartegoryName
 
 
 
-        addfloat = view.findViewById(R.id.add_task_float)
+
+
         Recycler = view.findViewById(R.id.recycler)
         mTaskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
 
-        val adapter = TaskListAdapter()
+        val adapter = CartegorySpecificClassAdapter()
         Recycler.adapter = adapter
         Recycler.layoutManager = LinearLayoutManager(context)
-        mTaskViewModel.readAllTasks.observe(viewLifecycleOwner, Observer { task ->
-            adapter.setData(task)
-        })
+
+
+        val cartTasks = mTaskViewModel.retrieveCartegoryTasks(args.cartTasks.cartegoryName)
+
+            cartTasks.observe(viewLifecycleOwner, Observer {
+                    tasks ->
+                adapter.setData(tasks)
+            })
 
 
 
 
-        addfloat.setOnClickListener(View.OnClickListener { view ->
-            // go to add fragment
-            findNavController().navigate(R.id.action_home_to_addTask)
-        })
+
+
+
+
+
+
 
 
 

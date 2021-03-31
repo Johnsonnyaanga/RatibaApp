@@ -15,16 +15,14 @@
             app:destination="@id/addTask"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/nav_default_enter_anim"
-            app:popExitAnim="@anim/nav_default_exit_anim" />
+            />
 
         <action
             android:id="@+id/action_home_to_updateTask"
             app:destination="@id/updateTask"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/nav_default_enter_anim"
-            app:popExitAnim="@anim/nav_default_exit_anim"
+
             />
     </fragment>
     <fragment
@@ -34,7 +32,8 @@
         tools:layout="@layout/fragment_add_task" >
         <action
             android:id="@+id/action_addTask_to_home"
-            app:destination="@id/home2" />
+            app:destination="@id/home2"
+            />
     </fragment>
     <fragment
         android:id="@+id/updateTask"
@@ -49,6 +48,9 @@
         <argument
             android:name="currentTask"
             app:argType="com.example.ratiba.models.Task" />
+        <action
+            android:id="@+id/action_updateTask_to_cartegorySpecificTasks"
+            app:destination="@id/cartegorySpecificTasks" />
 
     </fragment>
     <fragment
@@ -81,7 +83,11 @@
         tools:layout="@layout/fragment_cartegories" >
         <action
             android:id="@+id/action_cartegoriesFragment_to_cartegorySpecificTasks"
-            app:destination="@id/cartegorySpecificTasks" />
+            app:destination="@id/cartegorySpecificTasks"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+
+            />
     </fragment>
     <fragment
         android:id="@+id/settings"
@@ -91,10 +97,20 @@
     <fragment
         android:id="@+id/cartegorySpecificTasks"
         android:name="com.example.ratiba.fragments.CartegorySpecificTasks"
-        android:label="fragment_cartegory_specific_tasks"
         tools:layout="@layout/fragment_cartegory_specific_tasks" >
         <action
             android:id="@+id/action_cartegorySpecificTasks_to_cartegoriesFragment"
-            app:destination="@id/cartegoriesFragment" />
+            app:destination="@id/cartegoriesFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+           
+            />
+        <argument
+            android:name="cartTasks"
+            app:argType="com.example.ratiba.models.Cartegories"
+            />
+        <action
+            android:id="@+id/action_cartegorySpecificTasks_to_updateTask"
+            app:destination="@id/updateTask" />
     </fragment>
 </navigation>

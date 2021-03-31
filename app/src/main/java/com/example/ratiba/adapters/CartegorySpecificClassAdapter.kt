@@ -7,21 +7,22 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ratiba.fragments.HomeDirections
 import com.example.ratiba.R
+import com.example.ratiba.fragments.CartegorySpecificTasksDirections
+import com.example.ratiba.fragments.HomeDirections
 import com.example.ratiba.fragments.UpdateTask
 import com.example.ratiba.models.Task
 import com.google.android.material.card.MaterialCardView
 
-class TaskListAdapter:RecyclerView.Adapter<TaskListAdapter.TaskViewHolder>() {
+class CartegorySpecificClassAdapter: RecyclerView.Adapter<CartegorySpecificClassAdapter.TaskViewHolder>() {
 
     private var tasklist = emptyList<Task>()
-    class TaskViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
+    class TaskViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        return TaskViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.tasks_view_row,parent,false))
+        return TaskViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.cartegory_specific_tasks_view_row,parent,false))
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
@@ -31,13 +32,13 @@ class TaskListAdapter:RecyclerView.Adapter<TaskListAdapter.TaskViewHolder>() {
         holder.itemView.findViewById<TextView>(R.id.date_text_id).text = currentItem.dueDate
         holder.itemView.findViewById<MaterialCardView>(R.id.item_card).setOnClickListener(
             View.OnClickListener {
-                view ->
+                    view ->
                 val updateFragment  = UpdateTask()
                 val bundle = Bundle()
                 bundle.putString("taskname",currentItem.title)
                 updateFragment.arguments = bundle
 
-                val action = HomeDirections.actionHomeToUpdateTask(currentItem)
+                val action = CartegorySpecificTasksDirections.actionCartegorySpecificTasksToUpdateTask(currentItem)
                 holder.itemView.findNavController().navigate(action)
 
             }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import com.example.ratiba.models.Cartegories
 import com.example.ratiba.models.Task
+import com.google.android.play.core.tasks.Tasks
 
 @Dao
 interface TaskDao {
@@ -21,8 +22,10 @@ interface TaskDao {
 
     @Query("SELECT * FROM cartegories_table ORDER BY cartegory_ID ASC ")
     fun reterieveAllCartegories(): LiveData<List<Cartegories>>
-    @Query("SELECT * FROM cartegories_table WHERE cartegory_ID=:cartid ORDER BY cartegory_ID ASC ")
-    fun reterieveAllCartegoryTasks( cartid:Int): LiveData<List<Cartegories>>
+
+    @Query("SELECT * FROM task_table WHERE category=:cartname ORDER BY id ")
+    fun reterieveAllCartegoryTasks( cartname:String): LiveData<List<Task>>
+
     @Update
     suspend fun updateCartegory(cartegories: Cartegories)
 
