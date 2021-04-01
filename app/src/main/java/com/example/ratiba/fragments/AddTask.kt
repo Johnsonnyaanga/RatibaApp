@@ -8,11 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.ratiba.R
 import com.example.ratiba.TaskRepository
 import com.example.ratiba.models.Task
@@ -44,6 +48,16 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
 
         val view = inflater.inflate(R.layout.fragment_add_task, container, false)
+
+
+
+        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
+        (activity as AppCompatActivity?)!!.setSupportActionBar(toolbar)
+        //setSupportActionBar(toolbar)
+        val navHost = requireActivity().supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
+
+        val navController = navHost.findNavController()
+        NavigationUI.setupActionBarWithNavController(activity as AppCompatActivity, navController)
 
 
 

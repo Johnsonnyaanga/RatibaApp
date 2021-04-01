@@ -28,17 +28,13 @@ class MainActivity : AppCompatActivity(){
 
 
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+      /*  val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)*/
         val navHost = supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
+
         navController = navHost.findNavController()
-        setupActionBarWithNavController(navController)
-
-
-
-
-
-        setupActionBarWithNavController(findNavController(R.id.fragment))
+        /*setupActionBarWithNavController(navController)
+        setupActionBarWithNavController(findNavController(R.id.fragment))*/
 
 
 
@@ -49,7 +45,7 @@ class MainActivity : AppCompatActivity(){
 
     }
 
-   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+/*   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_item,menu)
         return true
     }
@@ -57,7 +53,7 @@ class MainActivity : AppCompatActivity(){
     // actions on click menu items
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return item!!.onNavDestinationSelected(navController)|| super.onOptionsItemSelected(item)
-    }
+    }*/
 
     private fun toastMessage(message:String){
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show()

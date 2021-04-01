@@ -65,7 +65,8 @@
         <action
             android:id="@+id/action_splashScreen_to_home2"
             app:destination="@id/home2"
-            app:popUpTo="@id/home2" />
+            app:popUpTo="@id/splashScreen"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/viewPager"
@@ -74,7 +75,9 @@
         tools:layout="@layout/fragment_view_pager" >
         <action
             android:id="@+id/action_viewPager_to_home2"
-            app:destination="@id/home2" />
+            app:destination="@id/home2"
+            app:popUpTo="@id/viewPager"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/cartegoriesFragment"

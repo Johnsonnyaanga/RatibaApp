@@ -11,21 +11,16 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/settings"
         android:menuCategory="secondary"
         android:title="Settings"
         app:showAsAction="never"/>
-    <item
-        android:menuCategory="secondary"
-        android:title="Feedback"
-        app:showAsAction="never"/>
+
     <item
         android:menuCategory="secondary"
         android:title="Remove Ads"
         app:showAsAction="never"/>
-    <item
-        android:menuCategory="secondary"
-        android:title="About Developer"
-        app:showAsAction="never"/>
+
 
 
 </menu>
