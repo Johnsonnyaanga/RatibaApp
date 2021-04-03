@@ -1,6 +1,10 @@
 package com.example.ratiba.fragments
 
+import android.app.AlarmManager
 import android.app.DatePickerDialog
+import android.app.PendingIntent
+import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils.isEmpty
 import android.util.Log
@@ -10,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.example.ratiba.AlarmReceiver
 import com.example.ratiba.R
 import com.example.ratiba.TaskRepository
 import com.example.ratiba.models.Task
@@ -33,7 +39,9 @@ import java.util.*
 
 class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
     var cal = Calendar.getInstance()
-    private lateinit var datetext:TextInputEditText
+    private lateinit var datetext:TextView
+    private lateinit var timetext:TextView
+
     private lateinit var cartegoryNameSpinner:Spinner
     private lateinit var SpinnerselctedTask:String
     private lateinit var addBTN:ExtendedFloatingActionButton
@@ -62,10 +70,13 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
 
 
-       datetext = view.findViewById<TextInputEditText>(R.id.date_text)
+       datetext = view.findViewById<TextView>(R.id.date_text)
+        timetext = view.findViewById<TextView>(R.id.time_text)
+        val timepicker = view.findViewById<LinearLayout>(R.id.timepicker)
+
         val taskname = view.findViewById<TextInputEditText>(R.id.task_name_id)
         val taskDescription = view.findViewById<TextInputEditText>(R.id.description_id)
-        val dueDate = view.findViewById<TextInputEditText>(R.id.date_text)
+        val dueDate = view.findViewById<TextView>(R.id.date_text)
         val status:String ?  = null
         addBTN = view.findViewById<ExtendedFloatingActionButton>(R.id.submit_task)
 
@@ -157,6 +168,13 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
 
 
+        //alarm
+        timepicker.setOnClickListener(View.OnClickListener {
+            openTimePickerDialog()
+
+        })
+
+
 
         return view
     }
@@ -220,6 +238,49 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
     override fun onNothingSelected(parent: AdapterView<*>?) {
 
     }
+
+
+
+
+    private fun openTimePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val timePickerDialog = TimePickerDialog(
+            requireContext(),
+            onTimeSetListener,
+            calendar[Calendar.HOUR_OF_DAY],
+            calendar[Calendar.MINUTE],
+            true)
+        timePickerDialog.setTitle("Set Alarm Time")
+        timePickerDialog.show()
+    }
+
+    private var onTimeSetListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+        val now = Calendar.getInstance()
+        val schedule = now.clone() as Calendar
+
+        schedule[Calendar.HOUR_OF_DAY] = hourOfDay
+        schedule[Calendar.MINUTE] = minute
+        schedule[Calendar.SECOND] = 0
+        schedule[Calendar.MILLISECOND] = 0
+
+        if (schedule <= now) schedule.add(Calendar.DATE, 1)
+
+        timetext.setText(schedule.time.toString())
+        setAlarm(schedule)
+    }
+
+    private fun setAlarm(calendar: Calendar) {
+        val intent = Intent(requireContext(), AlarmReceiver::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+        val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent, 0)
+        val alarmManager = (context?.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager)
+
+        alarmManager[AlarmManager.RTC_WAKEUP, calendar.timeInMillis] = pendingIntent
+
+        Toast.makeText(requireContext(), "Alarm Scheduled " + calendar.time, Toast.LENGTH_LONG).show()
+    }
+
 
 
 
