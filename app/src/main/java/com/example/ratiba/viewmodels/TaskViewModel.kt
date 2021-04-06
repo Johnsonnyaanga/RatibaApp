@@ -66,6 +66,24 @@ class TaskViewModel(application: Application):AndroidViewModel(application) {
            return mss
     }
 
+    fun getDateCount(date:String):LiveData<Int>{
+        val liveint = repository.getdateCount(date)
+        return liveint
+    }
+
+    fun deleteAllTasks(){
+        viewModelScope.launch(Dispatchers.IO)  {
+            repository.deleteAlltasks()
+        }
+    }
+
+    fun deleteAllCartegories(){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAllcartegories()
+        }
+    }
+
+
 
 
 

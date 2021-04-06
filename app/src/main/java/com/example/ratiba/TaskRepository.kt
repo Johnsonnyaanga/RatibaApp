@@ -41,6 +41,19 @@ class TaskRepository(private val taskDao:TaskDao) {
         return carts
     }
 
+    fun getdateCount(date:String):LiveData<Int>{
+        val m:LiveData<Int> = taskDao.getdateCount(date)
+        return m
+    }
+
+    fun deleteAlltasks(){
+        taskDao.deleteTasks()
+    }
+
+    fun deleteAllcartegories(){
+        taskDao.deleteCartegories()
+    }
+
 
 
 

@@ -90,30 +90,6 @@
             android:src="@drawable/cal" />
 
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/timepicker"
-        android:layout_width="376dp"
-        android:layout_height="35dp"
-        android:layout_margin="@dimen/_10sdp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/time_text"
-            android:layout_width="275dp"
-            android:layout_height="wrap_content"
-            android:hint="Select Time"
-            android:textSize="@dimen/_14ssp"
-            app:hintTextAppearance="@style/TextLabel" />
-
-        <ImageView
-            android:id="@+id/time_image"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:src="@drawable/cal" />
-
-    </LinearLayout>
 
 
     <TextView
@@ -127,7 +103,6 @@
         android:text="Select Category ?"
         />
     <Spinner
-
         android:layout_marginTop="10dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"

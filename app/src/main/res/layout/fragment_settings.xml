@@ -95,8 +95,14 @@
                 android:textColor="#BC000000"
                 android:text="Nokia Message 04"/>
         </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
         <LinearLayout
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_30sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -104,20 +110,62 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Data management"
+                android:textColor="#208DE3"
                 android:textSize="16sp"
-                android:textColor="@color/black"
-                android:text="Task Notification"/>
-            <TextView
-                android:layout_width="wrap_content"
+                />
+            <LinearLayout
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#BC000000"
-                android:text="20 minutes before"/>
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/delete_tasks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:text="Delete all Tasks"/>
+                <ImageView
+                    android:layout_marginLeft="@dimen/_30sdp"
+                    android:layout_weight="1"
+                    android:id="@+id/delete_tasks_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_delete"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/delete_cartegoris"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:text="Delete all cartegories"/>
+                <ImageView
+                    android:layout_weight="1"
+                    android:id="@+id/delete_cartegories_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_delete"
+                    />
+
+            </LinearLayout>
+
+
+
+
         </LinearLayout>
-
-
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_marginTop="@dimen/_30sdp"

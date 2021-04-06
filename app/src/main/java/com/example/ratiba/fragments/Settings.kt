@@ -7,17 +7,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.ratiba.R
+import com.example.ratiba.viewmodels.TaskViewModel
 
 
 class Settings : Fragment() {
+    private lateinit var deleteTasks:ImageView
+    private lateinit var deleteCartegories: ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +44,10 @@ class Settings : Fragment() {
 
         val navController = navHost.findNavController()
         NavigationUI.setupActionBarWithNavController(activity as AppCompatActivity, navController)
+
+
+
+
 
         view1.findViewById<TextView>(R.id.twitterlink).setOnClickListener(View.OnClickListener {
             var intent: Intent? = null
@@ -91,10 +101,54 @@ class Settings : Fragment() {
             }
         })
 
+        view1.findViewById<ImageView>(R.id.delete_tasks_icon).setOnClickListener(View.OnClickListener {
+            deleteTasksDialog()
+        })
+
+        view1.findViewById<ImageView>(R.id.delete_cartegories_icon).setOnClickListener(View.OnClickListener {
+            deleteCartegoriesDialog()
+        })
+
 
 
 
         return view1
+    }
+
+    private fun deleteAllTasks(){
+        val vmodel = ViewModelProvider(this).get(TaskViewModel::class.java)
+        vmodel.deleteAllTasks()
+    }
+    private fun deleteAllCartegories(){
+        val vmodel = ViewModelProvider(this).get(TaskViewModel::class.java)
+        vmodel.deleteAllCartegories()
+    }
+
+    private fun deleteTasksDialog(){
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage("Delete all Tasks ?")
+            .setCancelable(false)
+            .setPositiveButton("Okay") { dialog, id ->
+                deleteAllTasks()
+            }
+            .setNegativeButton("Cancel") { dialog, id ->
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
+    }
+    private fun deleteCartegoriesDialog(){
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage("Delete all Cartegories ?")
+            .setCancelable(false)
+            .setPositiveButton("Okay") { dialog, id ->
+                deleteAllCartegories()
+            }
+            .setNegativeButton("Cancel") { dialog, id ->
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
     }
 
 

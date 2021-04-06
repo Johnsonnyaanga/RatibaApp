@@ -64,6 +64,8 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
         //setSupportActionBar(toolbar)
         val navHost = requireActivity().supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
 
+
+
         val navController = navHost.findNavController()
         NavigationUI.setupActionBarWithNavController(activity as AppCompatActivity, navController)
 
@@ -71,8 +73,7 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
 
        datetext = view.findViewById<TextView>(R.id.date_text)
-        timetext = view.findViewById<TextView>(R.id.time_text)
-        val timepicker = view.findViewById<LinearLayout>(R.id.timepicker)
+
 
         val taskname = view.findViewById<TextInputEditText>(R.id.task_name_id)
         val taskDescription = view.findViewById<TextInputEditText>(R.id.description_id)
@@ -168,11 +169,11 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
 
 
-        //alarm
+      /*  //alarm
         timepicker.setOnClickListener(View.OnClickListener {
             openTimePickerDialog()
 
-        })
+        })*/
 
 
 
@@ -242,7 +243,7 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
 
 
-    private fun openTimePickerDialog() {
+    /*private fun openTimePickerDialog() {
         val calendar = Calendar.getInstance()
         val timePickerDialog = TimePickerDialog(
             requireContext(),
@@ -252,9 +253,8 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
             true)
         timePickerDialog.setTitle("Set Alarm Time")
         timePickerDialog.show()
-    }
-
-    private var onTimeSetListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+    }*/
+/*    private var onTimeSetListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
         val now = Calendar.getInstance()
         val schedule = now.clone() as Calendar
 
@@ -267,8 +267,7 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
         timetext.setText(schedule.time.toString())
         setAlarm(schedule)
-    }
-
+    }*/
     private fun setAlarm(calendar: Calendar) {
         val intent = Intent(requireContext(), AlarmReceiver::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
