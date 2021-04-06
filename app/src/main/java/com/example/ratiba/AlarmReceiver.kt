@@ -1,54 +1,69 @@
 package com.example.ratiba
 
-import android.app.Notification
+import android.annotation.TargetApi
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
-import android.media.MediaPlayer
+import android.graphics.Color
+import android.media.RingtoneManager
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import java.text.SimpleDateFormat
-import java.util.*
+import androidx.core.content.ContextCompat.getSystemService
 
 class AlarmReceiver : BroadcastReceiver() {
-    @RequiresApi(Build.VERSION_CODES.O)
+
     override fun onReceive(context: Context, intent: Intent) {
-        //create a date reference
-        val calendar: Calendar = Calendar.getInstance()
-        val formatDate: SimpleDateFormat = SimpleDateFormat("EEEE, MMMM d, yyyy", Locale.CANADA)
-        val formatTime: SimpleDateFormat = SimpleDateFormat("HH:mm", Locale.CANADA)
-        val date = formatDate.format(calendar.time)
-        val time = formatTime.format(calendar.time)
+        // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
+        val notificationUtils = NotificationUtils(context)
+        val notification = notificationUtils.getNotificationBuilder().build()
+        notificationUtils.getManager().notify(150, notification)
+    }
+}
 
-        // create a snooze intent
-        val snoozeIntent = Intent(context, AlarmReceiver::class.java)
-        snoozeIntent.putExtra(Notification.EXTRA_NOTIFICATION_ID, 0)
-        val snoozePendingIntent = PendingIntent.getBroadcast(context, 0, snoozeIntent, 0)
+class  NotificationUtils(base: Context) : ContextWrapper(base) {
 
-        // create a notification
-        val channelId = "1"
-        val builder = NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle("Notification: It's time!")
-                .setContentText("$date  $time")
-                .addAction(R.drawable.snooze_icon, "SNOOZE", snoozePendingIntent)
+    val MYCHANNEL_ID = "App Alert Notification ID"
+    val MYCHANNEL_NAME = "App Alert Notification"
 
-        // create the intent for lunch the notification view
-        val notificationIntent = Intent(context, AlarmReceiver::class.java)
-        val contentIntent = PendingIntent.getActivity(context, 0, notificationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT)
-        builder.setContentIntent(contentIntent)
+    private var manager: NotificationManager? = null
 
-        // add the notification
-        val manager = (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
-        manager.notify(0, builder.build())
+    init {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannels()
+        }
+    }
 
-        //add a alarm tone
-        val mediaPlayer: MediaPlayer = MediaPlayer.create(context, R.raw.alarm)
-        //mediaPlayer.isLooping = true
-        mediaPlayer.start()
+    // Create channel for Android version 26+
+    @TargetApi(Build.VERSION_CODES.O)
+    private fun createChannels() {
+        val channel = NotificationChannel(MYCHANNEL_ID, MYCHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
+        channel.enableVibration(true)
+
+        getManager().createNotificationChannel(channel)
+    }
+
+    // Get Manager
+    fun getManager() : NotificationManager {
+        if (manager == null) manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        return manager as NotificationManager
+    }
+
+    fun getNotificationBuilder(): NotificationCompat.Builder {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+        return NotificationCompat.Builder(applicationContext, MYCHANNEL_ID)
+            .setContentTitle("Alarm!")
+            .setContentText("Your AlarmManager is working.")
+            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setColor(Color.YELLOW)
+            .setContentIntent(pendingIntent)
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+            .setAutoCancel(true)
     }
 }

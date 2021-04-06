@@ -4,20 +4,21 @@ import android.app.AlarmManager
 import android.app.DatePickerDialog
 import android.app.PendingIntent
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils.isEmpty
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -88,7 +89,7 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
         val mSpinnerData = mTaskViewModel.readAllCategorynames
         mSpinnerData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
 
-            data ->
+                data ->
 
             val adapter = ArrayAdapter<String>(
                 requireContext(),
@@ -242,42 +243,43 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
 
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private fun startAlarm(calendar: Calendar) {
+        val alarmManager:AlarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(requireContext(), AlarmReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent, 0)
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+    }
+    fun cancelAlarm(view: View) {
+        val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-    /*private fun openTimePickerDialog() {
+        val intent = Intent(requireContext(), AlarmReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent, 0)
+        alarmManager.cancel(pendingIntent)
+    }
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private fun openTimePickerDialog() {
         val calendar = Calendar.getInstance()
         val timePickerDialog = TimePickerDialog(
             requireContext(),
             onTimeSetListener,
             calendar[Calendar.HOUR_OF_DAY],
             calendar[Calendar.MINUTE],
-            true)
+            true
+        )
         timePickerDialog.setTitle("Set Alarm Time")
         timePickerDialog.show()
-    }*/
-/*    private var onTimeSetListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-        val now = Calendar.getInstance()
-        val schedule = now.clone() as Calendar
+    }
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private var onTimeSetListener = TimePickerDialog.OnTimeSetListener { view, hour, minute ->
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.MONTH, 4)
+        calendar.set(Calendar.DAY_OF_MONTH, 7)
+        calendar.set(Calendar.HOUR_OF_DAY, hour)
+        calendar.set(Calendar.MINUTE, minute)
+        calendar.set(Calendar.SECOND, 0)
+        startAlarm(calendar)
 
-        schedule[Calendar.HOUR_OF_DAY] = hourOfDay
-        schedule[Calendar.MINUTE] = minute
-        schedule[Calendar.SECOND] = 0
-        schedule[Calendar.MILLISECOND] = 0
-
-        if (schedule <= now) schedule.add(Calendar.DATE, 1)
-
-        timetext.setText(schedule.time.toString())
-        setAlarm(schedule)
-    }*/
-    private fun setAlarm(calendar: Calendar) {
-        val intent = Intent(requireContext(), AlarmReceiver::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-
-        val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent, 0)
-        val alarmManager = (context?.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager)
-
-        alarmManager[AlarmManager.RTC_WAKEUP, calendar.timeInMillis] = pendingIntent
-
-        Toast.makeText(requireContext(), "Alarm Scheduled " + calendar.time, Toast.LENGTH_LONG).show()
     }
 
 
