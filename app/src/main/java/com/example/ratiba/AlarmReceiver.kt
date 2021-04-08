@@ -58,8 +58,8 @@ class  NotificationUtils(base: Context) : ContextWrapper(base) {
         }
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
         return NotificationCompat.Builder(applicationContext, MYCHANNEL_ID)
-            .setContentTitle("Alarm!")
-            .setContentText("Your AlarmManager is working.")
+            .setContentTitle("Ratiba")
+            .setContentText("You have   a pending Task Due")
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setColor(Color.YELLOW)
             .setContentIntent(pendingIntent)

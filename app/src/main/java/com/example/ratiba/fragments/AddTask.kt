@@ -1,15 +1,13 @@
 package com.example.ratiba.fragments
 
-import android.app.AlarmManager
-import android.app.DatePickerDialog
-import android.app.PendingIntent
-import android.app.TimePickerDialog
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils.isEmpty
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +24,7 @@ import androidx.navigation.ui.NavigationUI
 import com.example.ratiba.AlarmReceiver
 import com.example.ratiba.R
 import com.example.ratiba.TaskRepository
+import com.example.ratiba.models.Cartegories
 import com.example.ratiba.models.Task
 import com.example.ratiba.room.TaskDatabase
 import com.example.ratiba.viewmodels.TaskViewModel
@@ -38,16 +37,15 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
+class AddTask : Fragment(), AdapterView.OnItemSelectedListener {
     var cal = Calendar.getInstance()
-    private lateinit var datetext:TextView
-    private lateinit var timetext:TextView
-
-    private lateinit var cartegoryNameSpinner:Spinner
-    private lateinit var SpinnerselctedTask:String
-    private lateinit var addBTN:ExtendedFloatingActionButton
-    private lateinit var Spinner:Spinner
-
+    private lateinit var datetext: TextView
+    private lateinit var timetext: TextView
+    private lateinit var cartegoryNameSpinner: Spinner
+    private lateinit var SpinnerselctedTask: String
+    private lateinit var addBTN: ExtendedFloatingActionButton
+    private lateinit var Spinner: Spinner
+    private lateinit var alertDialog: AlertDialog
 
 
     override fun onCreateView(
@@ -59,12 +57,13 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
         val view = inflater.inflate(R.layout.fragment_add_task, container, false)
 
 
-
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
         (activity as AppCompatActivity?)!!.setSupportActionBar(toolbar)
-        //setSupportActionBar(toolbar)
-        val navHost = requireActivity().supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
 
+
+        //setSupportActionBar(toolbar)
+        val navHost =
+            requireActivity().supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
 
 
         val navController = navHost.findNavController()
@@ -73,15 +72,13 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
 
 
-       datetext = view.findViewById<TextView>(R.id.date_text)
-
-
+        datetext = view.findViewById<TextView>(R.id.date_text)
         val taskname = view.findViewById<TextInputEditText>(R.id.task_name_id)
         val taskDescription = view.findViewById<TextInputEditText>(R.id.description_id)
         val dueDate = view.findViewById<TextView>(R.id.date_text)
-        val status:String ?  = null
+        val addCart = view.findViewById<ImageView>(R.id.addCartId)
+        val status: String? = null
         addBTN = view.findViewById<ExtendedFloatingActionButton>(R.id.submit_task)
-
 
 
         //get cartegories
@@ -106,21 +103,6 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         addBTN.setOnClickListener(View.OnClickListener { view ->
             //var cartegory_selected:String
 
@@ -134,11 +116,18 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
 
         })
+        //add cartegory
+        addCart.setOnClickListener(View.OnClickListener {
+
+            getAddCartegoryDialog(view)
+
+        })
 
         val pickdate = view.findViewById<LinearLayout>(R.id.calendarpickerr)
 
         // create an OnDateSetListener
         val dateSetListener = object : DatePickerDialog.OnDateSetListener {
+            @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onDateSet(
                 view: DatePicker, year: Int, monthOfYear: Int,
                 dayOfMonth: Int
@@ -147,6 +136,7 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
                 cal.set(Calendar.MONTH, monthOfYear)
                 cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 updateDateInView()
+                openTimePickerDialog()
             }
         }
 
@@ -166,15 +156,11 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
         })
 
 
+        /*  //alarm
+          timepicker.setOnClickListener(View.OnClickListener {
+              openTimePickerDialog()
 
-
-
-
-      /*  //alarm
-        timepicker.setOnClickListener(View.OnClickListener {
-            openTimePickerDialog()
-
-        })*/
+          })*/
 
 
 
@@ -190,42 +176,34 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
 
         val context = activity?.applicationContext
 
-        if (inputCheck(taskname, taskdescription)){
-            val  mTaskModel = ViewModelProvider(this).get(TaskViewModel::class.java)
-
-
+        if (inputCheck(taskname, taskdescription)) {
+            val mTaskModel = ViewModelProvider(this).get(TaskViewModel::class.java)
             val task = Task(0, taskname, taskdescription, dueDate, null, category)
             mTaskModel.addTask(task)
 
             GlobalScope.launch(Dispatchers.IO) {
                 val dao = TaskDatabase.getDatabase(requireContext()).taskDao()
-                val taskr:TaskRepository = TaskRepository(dao)
+                val taskr: TaskRepository = TaskRepository(dao)
                 val count = taskr.getcartCount(category)
                 taskr.updateCartCount(count, category)
             }
 
-
-
-
-
-
             addBTN.setText("Added succesifully")
             findNavController().navigate(R.id.action_addTask_to_home)
 
-
-
-
-        }else{
+        } else {
             Toast.makeText(context, "please enter required fields", Toast.LENGTH_LONG).show()
 
         }
 
     }
-    private fun inputCheck(taskName: String, taskDesc: String):Boolean{
-        return !(isEmpty(taskName) && isEmpty(taskDesc))
+
+    private fun inputCheck(taskName: String, taskDesc: String): Boolean {
+        return !(isEmpty(taskName) || isEmpty(taskDesc))
 
 
     }
+
     private fun updateDateInView() {
         val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
@@ -242,14 +220,15 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
     }
 
 
-
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun startAlarm(calendar: Calendar) {
-        val alarmManager:AlarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmManager: AlarmManager =
+            requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(requireContext(), AlarmReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent, 0)
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
     }
+
     fun cancelAlarm(view: View) {
         val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -257,36 +236,84 @@ class AddTask : Fragment(),AdapterView.OnItemSelectedListener{
         val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent, 0)
         alarmManager.cancel(pendingIntent)
     }
+
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun openTimePickerDialog() {
         val calendar = Calendar.getInstance()
         val timePickerDialog = TimePickerDialog(
             requireContext(),
             onTimeSetListener,
-            calendar[Calendar.HOUR_OF_DAY],
-            calendar[Calendar.MINUTE],
+            cal[Calendar.HOUR_OF_DAY],
+            cal[Calendar.MINUTE],
             true
         )
         timePickerDialog.setTitle("Set Alarm Time")
         timePickerDialog.show()
     }
+
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private var onTimeSetListener = TimePickerDialog.OnTimeSetListener { view, hour, minute ->
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.MONTH, 4)
-        calendar.set(Calendar.DAY_OF_MONTH, 7)
-        calendar.set(Calendar.HOUR_OF_DAY, hour)
-        calendar.set(Calendar.MINUTE, minute)
-        calendar.set(Calendar.SECOND, 0)
-        startAlarm(calendar)
+
+        cal.set(Calendar.HOUR_OF_DAY, hour)
+        cal.set(Calendar.MINUTE, minute)
+        cal.set(Calendar.SECOND, 0)
+        Log.d("miero", cal.toString())
+        startAlarm(cal)
 
     }
 
 
+    fun getAddCartegoryDialog(view:View){
+
+        val viewGroup: ViewGroup? = view.findViewById(android.R.id.content)
 
 
+        val dialogView: View =
+            LayoutInflater.from(requireContext())
+                .inflate(R.layout.add_cartegory_dialog, viewGroup, false)
+
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        val cancel = dialogView.findViewById<Button>(R.id.button_cancel)
+        val add = dialogView.findViewById<Button>(R.id.button_save)
+
+        cancel.setOnClickListener(View.OnClickListener {
+                view ->
+            alertDialog.dismiss()
+        })
+
+        add.setOnClickListener(View.OnClickListener {
+                view->
+            val cartegoryName:TextInputEditText = dialogView.findViewById<TextInputEditText>(R.id.cartegory_name_text)
+            val cartCt:Int = 0
+            insertCartegory(cartegoryName?.text.toString(),cartCt)
+            toastMessage(cartegoryName.text.toString())
+            alertDialog.dismiss()
+
+        })
 
 
+        builder.setView(dialogView)
+
+        alertDialog  = builder.create()
+        alertDialog.show()
+
+
+    }
+    private fun insertCartegory(cart_name:String,cart_count:Int) {
+        if (inputCheckCart(cart_name)){
+            val mViewModel:TaskViewModel
+            mViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
+            val cartegories = Cartegories(0,cart_name,cart_count)
+            mViewModel.addCartegory(cartegories)
+            toastMessage("Cartegory added")
+        }else toastMessage("Cartegory name required")
+    }
+    private fun toastMessage(message:String){
+        Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
+    }
+    private fun inputCheckCart(name:String):Boolean{
+        return !(name.isEmpty())
+    }
 
 
 }

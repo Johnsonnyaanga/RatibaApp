@@ -173,7 +173,7 @@ class UpdateTask : Fragment(),AdapterView.OnItemSelectedListener{
 
     }
     private fun inputCheck(taskName: String, taskDesc: String):Boolean{
-        return !(TextUtils.isEmpty(taskName) && TextUtils.isEmpty(taskDesc))
+        return !(TextUtils.isEmpty(taskName) || TextUtils.isEmpty(taskDesc))
 
 
     }

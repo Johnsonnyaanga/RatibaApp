@@ -105,7 +105,6 @@ class CartegoriesFragment : Fragment() {
 
 
     }
-
     private fun insertCartegory(cart_name:String,cart_count:Int) {
         if (inputCheck(cart_name)){
         val mViewModel:TaskViewModel
@@ -115,7 +114,6 @@ class CartegoriesFragment : Fragment() {
         toastMessage("Cartegory added")
     }else toastMessage("Cartegory name required")
     }
-
     private fun toastMessage(message:String){
         Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
     }

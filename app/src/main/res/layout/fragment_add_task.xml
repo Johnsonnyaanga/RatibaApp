@@ -68,22 +68,25 @@
 
     <LinearLayout
         android:id="@+id/calendarpickerr"
-        android:layout_width="376dp"
-        android:layout_height="35dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
         android:layout_margin="@dimen/_10sdp"
         android:orientation="horizontal">
 
         <TextView
+            android:layout_weight="1"
             android:id="@+id/date_text"
-            android:layout_width="275dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Select Due Date"
             android:textSize="@dimen/_14ssp"
             app:hintTextAppearance="@style/TextLabel" />
 
         <ImageView
+            android:layout_weight="5"
             android:id="@+id/calendarpicker_image"
-            android:layout_width="35dp"
+            android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/_10sdp"
@@ -102,14 +105,29 @@
         android:textColor="#0B85E6"
         android:text="Select Category ?"
         />
-    <Spinner
+    <LinearLayout
+        android:padding="@dimen/_5sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:orientation="horizontal">
+    <Spinner
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spinner_cartegory"
         />
+        <ImageView
+            android:layout_weight="5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addCartId"
+            android:src="@drawable/ic_add_cart"
+            />
+
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:layout_width="match_parent"
