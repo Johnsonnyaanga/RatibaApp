@@ -14,6 +14,7 @@ interface TaskDao {
     @Update
     suspend fun updateTask(task: Task)
 
+
     @Query("SELECT * FROM task_table ORDER BY id ASC ")
      fun reterieveAllTasks(): LiveData<List<Task>>
 

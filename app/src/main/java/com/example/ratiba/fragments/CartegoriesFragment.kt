@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -49,6 +50,8 @@ class CartegoriesFragment : Fragment() {
 
         val recyclerViewCategory = v.findViewById<RecyclerView>(R.id.recycler_cartegories)
         val floating_Add = v.findViewById<FloatingActionButton>(R.id.floating_add_cartegory)
+
+
         mTaskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
 
         val adapter = CartegoryListAdapter()
@@ -86,7 +89,6 @@ class CartegoriesFragment : Fragment() {
             view ->
             alertDialog.dismiss()
         })
-
         add.setOnClickListener(View.OnClickListener {
             view->
             val cartegoryName:TextInputEditText = dialogView.findViewById<TextInputEditText>(R.id.cartegory_name_text)
@@ -96,10 +98,7 @@ class CartegoriesFragment : Fragment() {
             alertDialog.dismiss()
 
         })
-
-
         builder.setView(dialogView)
-
        alertDialog  = builder.create()
         alertDialog.show()
 
