@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.ratiba.NotesRepository
 import com.example.ratiba.models.Notes
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NotesViewModel(val notesRepository: NotesRepository
@@ -29,6 +30,13 @@ class NotesViewModel(val notesRepository: NotesRepository
     fun updateNote(note: Notes) = viewModelScope.launch {
         notesRepository.updateNote(note)
     }
+
+    fun deleteNote(note: Notes) = viewModelScope.launch {
+        notesRepository.deleteNote(note)
+    }
+
+
+
 }
 
 class NotesViewmodelFactoryProvider(

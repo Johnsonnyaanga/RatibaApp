@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.ratiba.TaskRepository
 import com.example.ratiba.models.Cartegories
+import com.example.ratiba.models.Notes
 import com.example.ratiba.models.Task
 import com.example.ratiba.room.TaskDatabase
 import com.google.android.play.core.tasks.Tasks
@@ -35,6 +36,8 @@ class TaskViewModel(application: Application):AndroidViewModel(application) {
             repository.updateTask(task)
         }
     }
+
+
 
    fun addCartegory(cartegories: Cartegories){
        viewModelScope.launch(Dispatchers.IO){
