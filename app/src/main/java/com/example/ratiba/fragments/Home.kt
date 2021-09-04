@@ -1,6 +1,7 @@
 package com.example.ratiba.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -55,6 +56,7 @@ class Home : Fragment() {
         Recycler.adapter = adapter
         Recycler.layoutManager = LinearLayoutManager(context)
         mTaskViewModel.readAllTasks.observe(viewLifecycleOwner, Observer { task ->
+            Log.d("status",task.toString())
             adapter.setData(task)
         })
 

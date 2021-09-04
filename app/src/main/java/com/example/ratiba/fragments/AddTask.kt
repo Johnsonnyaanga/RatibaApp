@@ -37,6 +37,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
+
+
 class AddTask : Fragment(), AdapterView.OnItemSelectedListener {
     var cal = Calendar.getInstance()
     private lateinit var datetext: TextView
@@ -181,12 +183,9 @@ class AddTask : Fragment(), AdapterView.OnItemSelectedListener {
             val task = Task(0, taskname, taskdescription, dueDate, null, category)
             mTaskModel.addTask(task)
 
-            GlobalScope.launch(Dispatchers.IO) {
-                val dao = TaskDatabase.getDatabase(requireContext()).taskDao()
-                val taskr: TaskRepository = TaskRepository(dao)
-                val count = taskr.getcartCount(category)
-                taskr.updateCartCount(count, category)
-            }
+
+
+
 
             addBTN.setText("Added succesifully")
             findNavController().navigate(R.id.action_addTask_to_home)

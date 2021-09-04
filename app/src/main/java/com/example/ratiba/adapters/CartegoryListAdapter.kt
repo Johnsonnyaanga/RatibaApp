@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ratiba.MainActivity
 import com.example.ratiba.R
 import com.example.ratiba.TaskRepository
 import com.example.ratiba.fragments.CartegoriesFragmentDirections
@@ -38,9 +41,23 @@ class CartegoryListAdapter: RecyclerView.Adapter<CartegoryListAdapter.CartegoryV
     override fun onBindViewHolder(holder: CartegoryViewHolder, position: Int) {
         val ctx = holder.itemView.context
 
+
+
+
+
         var currentItem = cartegorylist[position]
+
+        //real time cart count
+        (ctx as MainActivity).mTaskViewModel.getCartCount(currentItem.cartegoryName)
+        ctx.mTaskViewModel.cartCount.observe(ctx as LifecycleOwner, Observer {
+            holder.itemView.findViewById<TextView>(R.id.number_of_tasks_id).text = it.toString()
+
+        })
+
+
+
         holder.itemView.findViewById<TextView>(R.id.cartegory_text_id).text = currentItem.cartegoryName
-        holder.itemView.findViewById<TextView>(R.id.number_of_tasks_id).text = currentItem.cartegoryCount.toString()
+        //holder.itemView.findViewById<TextView>(R.id.number_of_tasks_id).text = currentItem.cartegoryCount.toString()
 
         //edit cart name
         holder.itemView.findViewById<ImageView>(R.id.edit_cartegory_name).setOnClickListener(View.OnClickListener {
@@ -56,20 +73,20 @@ class CartegoryListAdapter: RecyclerView.Adapter<CartegoryListAdapter.CartegoryV
             val builder: AlertDialog.Builder = AlertDialog.Builder(ctx)
             val cancel = dialogView.findViewById<Button>(R.id.button_cancel)
             val add = dialogView.findViewById<Button>(R.id.button_save)
-            val cartegoryName: TextInputEditText = dialogView.findViewById<TextInputEditText>(R.id.cartegory_name_text)
+            val cartegoryName: TextInputEditText = dialogView.findViewById(R.id.cartegory_name_text)
             cartegoryName.setText(currentItem.cartegoryName)
 
-            cancel.setOnClickListener(View.OnClickListener {
-                    view ->
+            cancel.setOnClickListener { view ->
                 alertDialog.dismiss()
-            })
-            add.setOnClickListener(View.OnClickListener {
-                    view->
+            }
+            add.setOnClickListener { view ->
 
-                val cartegoryName: TextInputEditText = dialogView.findViewById<TextInputEditText>(R.id.cartegory_name_text)
-                val cartCt:Int = 0
+                val cartegoryName: TextInputEditText =
+                    dialogView.findViewById<TextInputEditText>(R.id.cartegory_name_text)
+                val cartCt: Int = 0
 
-                val cartegories = Cartegories(currentItem.cartegory_ID,cartegoryName.text.toString(),cartCt)
+                val cartegories =
+                    Cartegories(currentItem.cartegory_ID, cartegoryName.text.toString(), cartCt)
 
                 GlobalScope.launch(Dispatchers.IO) {
                     repository.updateCartegories(cartegories)
@@ -77,7 +94,7 @@ class CartegoryListAdapter: RecyclerView.Adapter<CartegoryListAdapter.CartegoryV
 
                 alertDialog.dismiss()
 
-            })
+            }
             builder.setView(dialogView)
             alertDialog  = builder.create()
             alertDialog.show()

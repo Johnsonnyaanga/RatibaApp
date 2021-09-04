@@ -11,10 +11,10 @@
         android:layout_height="match_parent"
         android:fontFamily="sans-serif-smallcaps"
         android:gravity="center"
-        android:text="Ratiba"
+        android:text="Task Reminder"
         android:textAllCaps="false"
-        android:textColor="#090909"
-        android:textSize="@dimen/_50sdp"
+        android:textColor="#CB090909"
+        android:textSize="@dimen/_49sdp"
         android:textStyle="bold" />
 
 </FrameLayout>

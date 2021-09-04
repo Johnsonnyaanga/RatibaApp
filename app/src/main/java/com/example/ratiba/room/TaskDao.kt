@@ -15,6 +15,8 @@ interface TaskDao {
     suspend fun updateTask(task: Task)
 
 
+
+
     @Query("SELECT * FROM task_table ORDER BY id ASC ")
      fun reterieveAllTasks(): LiveData<List<Task>>
 
@@ -31,7 +33,7 @@ interface TaskDao {
     suspend fun updateCartegory(cartegories: Cartegories)
 
     @Query("SELECT COUNT(id)  FROM task_table WHERE category = :cart")
-    fun getCartCount(cart: String):Int
+    fun getCartCount(cart: String):LiveData<Int>
 
     @Query("UPDATE cartegories_table SET cartegoryCount  = :count WHERE cartegoryName =:cartname")
     fun updateCartCount(count: Int, cartname: String)
@@ -48,6 +50,9 @@ interface TaskDao {
 //delete cartegories_table data
      @Query("DELETE FROM cartegories_table")
     fun deleteCartegories()
+
+ //NOTES SECTION
+
 
 
 

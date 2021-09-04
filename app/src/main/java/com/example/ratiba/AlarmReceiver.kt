@@ -55,11 +55,12 @@ class  NotificationUtils(base: Context) : ContextWrapper(base) {
     fun getNotificationBuilder(): NotificationCompat.Builder {
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+
         }
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
         return NotificationCompat.Builder(applicationContext, MYCHANNEL_ID)
-            .setContentTitle("Ratiba")
-            .setContentText("You have   a pending Task Due")
+            .setContentTitle("TaskPlanner")
+            .setContentText("You have a pending Task Due")
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setColor(Color.YELLOW)
             .setContentIntent(pendingIntent)

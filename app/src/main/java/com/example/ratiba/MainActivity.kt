@@ -17,7 +17,6 @@ import android.widget.MediaController
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.view.SupportActionModeWrapper
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.Observer
@@ -45,12 +44,17 @@ class MainActivity : AppCompatActivity(){
     //notification constants
     private val CHANNEL_ID = "example_channel_id"
     private val notification_id = 101
+    lateinit var mTaskViewModel: TaskViewModel
+
 
     private lateinit var navController: NavController
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        mTaskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
+
 
 
         val navHost = supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
@@ -66,6 +70,14 @@ class MainActivity : AppCompatActivity(){
         return navController.navigateUp() || super.onSupportNavigateUp()
 
     }
+
+ /*   override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return true
+    }*/
 
 
     private fun toastMessage(message:String){

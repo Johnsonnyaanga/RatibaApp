@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/home2"
         android:name="com.example.ratiba.fragments.Home"
-        android:label="TODOS"
+        android:label="Tasks"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_home_to_addTask"
@@ -114,6 +114,50 @@
             />
         <action
             android:id="@+id/action_cartegorySpecificTasks_to_updateTask"
-            app:destination="@id/updateTask" />
+            app:destination="@id/updateTask"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/notesFragment"
+        android:name="com.example.ratiba.fragments.NotesFragment"
+        android:label="Notes"
+        tools:layout="@layout/fragment_notes" >
+        <action
+            android:id="@+id/action_notesFragment_to_addNotesFragment"
+            app:destination="@id/addNotesFragment" />
+        <action
+            android:id="@+id/action_notesFragment_to_updateNotesFragment"
+            app:destination="@id/updateNotesFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_notesFragment_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/addNotesFragment"
+        android:name="com.example.ratiba.fragments.AddNotesFragment"
+        android:label="Add Note"
+        tools:layout="@layout/fragment_add_notes" >
+        <action
+            android:id="@+id/action_addNotesFragment_to_notesFragment"
+            app:destination="@id/notesFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/updateNotesFragment"
+        android:name="com.example.ratiba.fragments.UpdateNotesFragment"
+        android:label="Update Note"
+        tools:layout="@layout/fragment_update_notes" >
+        <action
+            android:id="@+id/action_updateNotesFragment_to_notesFragment"
+            app:destination="@id/notesFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
+        <argument
+            android:name="noteItem"
+            app:argType="com.example.ratiba.models.Notes" />
     </fragment>
 </navigation>

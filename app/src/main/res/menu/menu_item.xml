@@ -17,8 +17,9 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/notesFragment"
         android:menuCategory="secondary"
-        android:title="Remove Ads"
+        android:title="Notes"
         app:showAsAction="never"/>
 
 

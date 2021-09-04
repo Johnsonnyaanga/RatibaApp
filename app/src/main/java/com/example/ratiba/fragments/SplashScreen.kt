@@ -29,7 +29,7 @@ class SplashScreen : Fragment() {
 
               }
 
-          }, 3000)
+          }, 2000)
         return inflater.inflate(R.layout.fragment_splash_screen, container, false)
     }
 

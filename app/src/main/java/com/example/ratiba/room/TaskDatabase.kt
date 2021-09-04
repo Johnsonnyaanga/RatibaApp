@@ -5,12 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.ratiba.models.Cartegories
+import com.example.ratiba.models.Notes
 import com.example.ratiba.models.Task
 
-@Database(entities = [Task::class,Cartegories::class],version = 1,exportSchema = false)
+@Database(entities = [Task::class,Cartegories::class, Notes::class],version = 1,exportSchema = false)
 abstract class TaskDatabase: RoomDatabase() {
 
     abstract fun taskDao():TaskDao
+    abstract fun notesDao():NotesDao
 
     companion object{
         private var INSTANCE:TaskDatabase?=null
@@ -25,7 +27,7 @@ abstract class TaskDatabase: RoomDatabase() {
                     context.applicationContext,
                     TaskDatabase::class.java,
                     "ratiba_database"
-                ).build()
+                ).allowMainThreadQueries().build()
                 INSTANCE = instance
                 return instance
             }
